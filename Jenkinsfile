@@ -9,7 +9,8 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                git  'https://github.com/dengxuezhao/cash_debt_simulation.git'
+                git branch: 'main', credentialsId: '069fe1f6-cd6e-47a8-a730-1f834556e05e', 
+                url: 'https://github.com/dengxuezhao/cash_debt_simulation.git'
             }
         }
         stage('PrepareEnviroment'){
