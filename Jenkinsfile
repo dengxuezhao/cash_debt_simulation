@@ -9,7 +9,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                git url:https://github.com/dengxuezhao/cash_debt_simulation.git,
+                git url: 'https://github.com/dengxuezhao/cash_debt_simulation.git',
                 credentialsId: 'github-token'
             }
         }
