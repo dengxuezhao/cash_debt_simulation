@@ -5,6 +5,7 @@ pipeline{
         VIRTUAL_ENV = "${WORKSPACE}/.venv"
         APP_NAME = "app_demo"
         SYSTEMD_SERVICE = "${APP_NAME}.service"
+        PATH = "/usr/local/bin:/usr/bin:/bin:$PATH"
     }
     stages{
         stage('Checkout'){
@@ -13,14 +14,15 @@ pipeline{
                 url: 'https://github.com/dengxuezhao/cash_debt_simulation.git'
             }
         }
-        stage('PrepareEnviroment'){
+        stage('PrepareEnvironment'){
             steps{
                 script{
-                    //创建虚拟环境并安装依赖
                     sh '''
                     cd ${WORKSPACE_DIR}
+                    which python3 || echo "Python 3 not found in PATH"
+                    python3 --version || echo "Unable to get Python version"
                     if [ ! -d ${VIRTUAL_ENV} ]; then
-                        python3 -m venv ${VIRTUAL_ENV}
+                        python3 -m venv ${VIRTUAL_ENV} || echo "Failed to create virtual environment"
                     fi
                     source ${VIRTUAL_ENV}/bin/activate
                     pip install --upgrade pip
@@ -28,7 +30,6 @@ pipeline{
                     '''
                 }
             }
-            
         }
         stage('Test'){
             steps{
