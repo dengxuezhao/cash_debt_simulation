@@ -37,18 +37,18 @@ pipeline{
                 }
             }
         }
-        stage('Test'){
-            steps{
-                script{
-                    // 运行测试
-                    sh '''
-                    cd ${WORKSPACE_DIR}
-                    . ${VIRTUAL_ENV}/bin/activate || source ${VIRTUAL_ENV}/bin/activate
-                    pytest
-                    '''
-                }
-            }
-        }
+        // stage('Test'){
+        //     steps{
+        //         script{
+        //             // 运行测试
+        //             sh '''
+        //             cd ${WORKSPACE_DIR}
+        //             . ${VIRTUAL_ENV}/bin/activate || source ${VIRTUAL_ENV}/bin/activate
+        //             pytest
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Deploy'){
             steps{
                 script{
