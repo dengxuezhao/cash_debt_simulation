@@ -1,7 +1,7 @@
 pipeline{
     agent any 
     environment{
-        WORKSPACE_DIR = "/home/www/app"
+        WORKSPACE_DIR = "/var/jenkins_home/workspace"
         VIRTUAL_ENV = "${WORKSPACE}/.venv"
         APP_NAME = "app_demo"
         SYSTEMD_SERVICE = "${APP_NAME}.service"
