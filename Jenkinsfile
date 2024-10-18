@@ -1,12 +1,11 @@
 pipeline{
     agent any 
     environment{
-        WORKSPACE_DIR = "/var/jenkins_home/workspace"
+        WORKSPACE_DIR = "${WORKSPACE}"
         VIRTUAL_ENV = "${WORKSPACE}/.venv"
         APP_NAME = "app_demo"
         SYSTEMD_SERVICE = "${APP_NAME}.service"
-        PYTHON_PATH = "/opt/python/mini/bin/python"
-        PATH = "/opt/python/mini/bin:${PATH}"
+        PATH = "/usr/local/bin:/usr/bin:/bin:$PATH"
     }
     stages{
         stage('Checkout'){
@@ -20,14 +19,20 @@ pipeline{
                 script{
                     sh '''
                     cd ${WORKSPACE_DIR}
-                    echo "Python path: ${PYTHON_PATH}"
-                    ${PYTHON_PATH} --version || echo "Unable to get Python version"
+                    echo "Python version:"
+                    python3 --version
+                    echo "Python location:"
+                    which python3
                     if [ ! -d ${VIRTUAL_ENV} ]; then
-                        ${PYTHON_PATH} -m venv ${VIRTUAL_ENV} || echo "Failed to create virtual environment"
+                        echo "Creating virtual environment..."
+                        python3 -m venv ${VIRTUAL_ENV}
                     fi
-                    source ${VIRTUAL_ENV}/bin/activate
-                    ${VIRTUAL_ENV}/bin/pip install --upgrade pip
-                    ${VIRTUAL_ENV}/bin/pip install -r requirements.txt
+                    echo "Activating virtual environment..."
+                    . ${VIRTUAL_ENV}/bin/activate
+                    echo "Upgrading pip..."
+                    pip install --upgrade pip
+                    echo "Installing requirements..."
+                    pip install -r requirements.txt
                     '''
                 }
             }
