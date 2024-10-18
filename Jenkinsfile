@@ -5,7 +5,8 @@ pipeline{
         VIRTUAL_ENV = "${WORKSPACE}/.venv"
         APP_NAME = "app_demo"
         SYSTEMD_SERVICE = "${APP_NAME}.service"
-        PATH = "/usr/local/bin:/usr/bin:/bin:$PATH"
+        PYTHON_PATH = "/opt/python/mini/bin/python"
+        PATH = "/opt/python/mini/bin:${PATH}"
     }
     stages{
         stage('Checkout'){
@@ -19,14 +20,14 @@ pipeline{
                 script{
                     sh '''
                     cd ${WORKSPACE_DIR}
-                    which python3 || echo "Python 3 not found in PATH"
-                    python3 --version || echo "Unable to get Python version"
+                    echo "Python path: ${PYTHON_PATH}"
+                    ${PYTHON_PATH} --version || echo "Unable to get Python version"
                     if [ ! -d ${VIRTUAL_ENV} ]; then
-                        python3 -m venv ${VIRTUAL_ENV} || echo "Failed to create virtual environment"
+                        ${PYTHON_PATH} -m venv ${VIRTUAL_ENV} || echo "Failed to create virtual environment"
                     fi
                     source ${VIRTUAL_ENV}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    ${VIRTUAL_ENV}/bin/pip install --upgrade pip
+                    ${VIRTUAL_ENV}/bin/pip install -r requirements.txt
                     '''
                 }
             }
