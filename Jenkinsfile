@@ -19,7 +19,7 @@ pipeline{
                     //创建虚拟环境并安装依赖
                     sh '''
                     cd ${WORKSPACE_DIR}
-                    if [! -d ${VIRTUAL_ENV}]; then
+                    if [ ! -d ${VIRTUAL_ENV} ]; then
                         python3 -m venv ${VIRTUAL_ENV}
                     fi
                     source ${VIRTUAL_ENV}/bin/activate
